@@ -215,7 +215,7 @@ function render(){
   tb.className='tier-badge tier-'+(klant.tier||'bronze');
   var sub=document.getElementById('subbalk');
   var sbl=document.getElementById('sublbl');
-  if(cfg.staffel_omschrijving){sub.style.display='flex';sbl.textContent=(cfg.staffel_omschrijving)+' \u00b7 '+(klant.iw?'Prijzen excl. BTW':'Prijzen incl. BTW')}
+  if(cfg.staffel_omschrijving&&klant.sa){sub.style.display='flex';sbl.textContent=(cfg.staffel_omschrijving)+' \u00b7 '+(klant.iw?'Prijzen excl. BTW':'Prijzen incl. BTW')}else if(!klant.sa){sub.style.display='flex';sbl.textContent=klant.iw?'Prijzen excl. BTW':'Prijzen incl. BTW'}
   var sp=prods.filter(isSoon);
   var sb=document.getElementById('sbanner'),st=document.getElementById('strack');
   if(sp.length>0){
@@ -327,6 +327,6 @@ function setFilter(f){
 }
 init();
 </script>
-<div style="text-align:center;padding:20px;font-size:10px;color:#2a3a55">v3.5</div>
+<div style="text-align:center;padding:20px;font-size:10px;color:#2a3a55">v3.6</div>
 </body>
 </html>
