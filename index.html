@@ -232,7 +232,7 @@ function render(){
     st.innerHTML=doubled.map(function(p){return'<span class="soon-item"><span class="soon-tag">AVAILABLE SOON</span>'+p.naam+(p.afmeting?'\u00b7'+p.afmeting:'')+'</span><span class="soon-pip"></span>'}).join('');
   }
   var g=document.getElementById('pgrid');g.innerHTML='';
-  prods.forEach(function(p){renderCard(p,g)});
+  prods.filter(function(p){return isSoon(p)||inStock(p);}).forEach(function(p){renderCard(p,g)});
   upd();
   if(klant.em){
     var ei=document.getElementById('einp');
@@ -330,11 +330,11 @@ function setFilter(f){
   });
   var g=document.getElementById('pgrid');g.innerHTML='';
   var filtered=f==='alle'?prods:prods.filter(function(p){return String(p.categorie||'').toLowerCase()===f.toLowerCase()});
-  filtered.forEach(function(p){renderCard(p,g)});
+  filtered.filter(function(p){return isSoon(p)||inStock(p);}).forEach(function(p){renderCard(p,g)});
   upd();
 }
 init();
 </script>
-<div style="text-align:center;padding:20px;font-size:10px;color:#2a3a55">v2.9</div>
+<div style="text-align:center;padding:20px;font-size:10px;color:#2a3a55">v3.0</div>
 </body>
 </html>
