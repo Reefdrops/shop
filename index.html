@@ -207,12 +207,8 @@ function nextS(sub){
 }
 
 function render(){
-  var nm=cfg.bedrijfsnaam||'ReefDrops';
+  var nm=cfg.bedrijfsnaam||'Coraldrop';
   document.title=nm;
-  var parts=nm.split(' ');
-  document.getElementById('bnaam').innerHTML=parts.length>1?parts[0]+'<em>'+parts.slice(1).join(' ')+'</em>':nm;
-  var ini=nm.split(' ').map(function(w){return w[0]||''}).slice(0,2).join('').toUpperCase();
-  document.getElementById('logo').textContent=ini||'RC';
   var em={'bronze':'\uD83E\uDD49','zilver':'\uD83E\uDD48','gold':'\uD83E\uDD47'};
   var tb=document.getElementById('tbadge');
   tb.textContent=(em[klant.tier]||'')+' '+klant.naam+' \u2014 '+klant.tier.charAt(0).toUpperCase()+klant.tier.slice(1);
@@ -331,6 +327,6 @@ function setFilter(f){
 }
 init();
 </script>
-<div style="text-align:center;padding:20px;font-size:10px;color:#2a3a55">v3.4</div>
+<div style="text-align:center;padding:20px;font-size:10px;color:#2a3a55">v3.5</div>
 </body>
 </html>
