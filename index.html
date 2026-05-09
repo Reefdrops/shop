@@ -29,11 +29,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .soon-item{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--goud)}
 .soon-pip{width:4px;height:4px;border-radius:50%;background:var(--goud);opacity:.35}
 .soon-tag{background:var(--goud);color:#06091a;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;letter-spacing:.08em}
-header{background:#08091f;border-bottom:1px solid var(--border);padding:15px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+header{background:#08091f;border-bottom:1px solid var(--border);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .brand{display:flex;align-items:center;gap:13px}
-.logo{width:42px;height:42px;border-radius:50%;border:2px solid var(--goud);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:var(--goud);flex-shrink:0;letter-spacing:.05em}
-.brand-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:.06em}
-.brand-name em{color:var(--goud);font-style:normal}
 .tier-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 15px;border-radius:20px;font-size:11px;font-weight:600}
 .tier-bronze{background:var(--goud-bg);border:1px solid var(--goud-dim);color:var(--goud)}
 .tier-zilver{background:rgba(104,120,168,.15);border:1px solid rgba(104,120,168,.3);color:#a0b0d8}
@@ -113,7 +110,7 @@ main{padding:22px 28px}
   <header>
     <div class="brand">
       <div class="logo" id="logo">RC</div>
-      <div class="brand-name" id="bnaam">RARE<em>CORALS</em></div>
+      <div class="brand-name" id="bnaam">REEF<em>DROPS</em></div>
     </div>
     <span id="tbadge" class="tier-badge tier-bronze"></span>
   </header>
@@ -211,7 +208,7 @@ function nextS(sub){
 }
 
 function render(){
-  var nm=cfg.bedrijfsnaam||'Groothandel Portaal';
+  var nm=cfg.bedrijfsnaam||'ReefDrops';
   document.title=nm;
   var parts=nm.split(' ');
   document.getElementById('bnaam').innerHTML=parts.length>1?parts[0]+'<em>'+parts.slice(1).join(' ')+'</em>':nm;
@@ -335,6 +332,6 @@ function setFilter(f){
 }
 init();
 </script>
-<div style="text-align:center;padding:20px;font-size:10px;color:#2a3a55">v3.0</div>
+<div style="text-align:center;padding:20px;font-size:10px;color:#2a3a55">v3.2</div>
 </body>
 </html>
