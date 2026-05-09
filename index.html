@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portaal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06091a;--card:#0f1535;--border:#1a2550;
+  --text:#eef2ff;--muted:#6878a8;
+  --goud:#c9a84c;--goud-bg:rgba(201,168,76,0.12);--goud-dim:rgba(201,168,76,0.25);
+  --blauw:#2563eb;--blauw-hover:#1d4ed8;
+  --rood:#f04747;--rood-bg:rgba(240,71,71,0.1);
+  --groen:#22c97a;--groen-bg:rgba(34,201,122,0.1);
+  --r:10px;
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+#loader{display:flex;align-items:center;justify-content:center;min-height:80vh;flex-direction:column;gap:14px}
+.spinner{width:34px;height:34px;border:3px solid var(--border);border-top-color:var(--goud);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.soon-banner{background:#08091f;border-bottom:1px solid var(--goud-dim);padding:8px 0;overflow:hidden;position:relative}
+.soon-banner::before,.soon-banner::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2}
+.soon-banner::before{left:0;background:linear-gradient(90deg,#08091f,transparent)}
+.soon-banner::after{right:0;background:linear-gradient(270deg,#08091f,transparent)}
+.soon-track{display:flex;align-items:center;gap:28px;white-space:nowrap;width:max-content;padding:0 28px;animation:marquee 24s linear infinite}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.soon-item{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--goud)}
+.soon-pip{width:4px;height:4px;border-radius:50%;background:var(--goud);opacity:.35}
+.soon-tag{background:var(--goud);color:#06091a;border-radius:3px;padding:1px 7px;font-size:9px;font-weight:800;letter-spacing:.08em}
+header{background:#08091f;border-bottom:1px solid var(--border);padding:15px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{width:42px;height:42px;border-radius:50%;border:2px solid var(--goud);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:var(--goud);flex-shrink:0;letter-spacing:.05em}
+.brand-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:.06em}
+.brand-name em{color:var(--goud);font-style:normal}
+.tier-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 15px;border-radius:20px;font-size:11px;font-weight:600}
+.tier-bronze{background:var(--goud-bg);border:1px solid var(--goud-dim);color:var(--goud)}
+.tier-zilver{background:rgba(104,120,168,.15);border:1px solid rgba(104,120,168,.3);color:#a0b0d8}
+.tier-gold{background:var(--goud-bg);border:1px solid var(--goud-dim);color:var(--goud)}
+.subbalk{background:#080c20;border-bottom:1px solid var(--border);padding:7px 28px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.actie-tag{background:var(--goud);color:#06091a;border-radius:3px;padding:2px 8px;font-size:9px;font-weight:800;letter-spacing:.07em}
+main{padding:22px 28px}
+.lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.filters{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.fbtn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;letter-spacing:.02em}
+.fbtn:hover{border-color:var(--goud-dim);color:var(--goud)}
+.fbtn.active{background:var(--goud-bg);border-color:var(--goud-dim);color:var(--goud)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:13px;margin-bottom:32px}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s}
+.pcard:hover{border-color:var(--goud-dim)}
+.pcard.oos{opacity:.6}
+.img-wrap{position:relative}
+.pimg{width:100%;height:165px;object-fit:cover;display:block;background:#090e22}
+.pimg-ph{width:100%;height:165px;background:#090e22;display:flex;align-items:center;justify-content:center;font-size:11px;color:#1e2a50}
+.ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.ov-bg{background:rgba(0,0,0,.55)}
+.ov-lbl{font-size:10px;font-weight:800;padding:5px 14px;border-radius:4px;letter-spacing:.08em;color:#fff}
+.ov-rood .ov-lbl{background:var(--rood)}
+.ov-goud .ov-lbl{background:var(--goud);color:#06091a}
+.pbody{padding:12px 14px}
+.pname{font-weight:600;font-size:13px;color:var(--text);margin-bottom:2px}
+.pdim{font-size:11px;color:var(--muted);margin-bottom:8px}
+.sbadge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;margin-bottom:9px}
+.sbadge.groen{background:var(--groen-bg);color:var(--groen)}
+.sbadge.rood{background:var(--rood-bg);color:var(--rood)}
+.sbadge.goud{background:var(--goud-bg);color:var(--goud)}
+.sdot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.prow{display:flex;align-items:baseline;gap:6px;margin-bottom:2px;flex-wrap:wrap}
+.pmain{font-size:16px;font-weight:700;color:var(--goud)}
+.pold{font-size:11px;text-decoration:line-through;color:var(--muted)}
+.pnew{font-size:16px;font-weight:700;color:var(--groen)}
+.psave{font-size:10px;font-weight:700;background:var(--groen-bg);color:var(--groen);padding:2px 6px;border-radius:4px}
+.plbl{font-size:10px;color:var(--muted);margin-bottom:10px}
+.wprijs{font-size:11px;color:var(--muted);background:#090e22;padding:6px 9px;border-radius:5px;margin-bottom:10px;line-height:1.6}
+.qrow{display:flex;align-items:center;gap:9px}
+.qrow label{font-size:11px;color:var(--muted)}
+.qctrl{display:flex;align-items:center;gap:3px}
+.qbtn{width:26px;height:26px;border:1px solid var(--border);background:#090e22;border-radius:5px;font-size:15px;cursor:pointer;color:var(--goud);font-weight:700}
+.qbtn:hover:not([disabled]){border-color:var(--goud-dim)}
+.qbtn[disabled]{opacity:.3;cursor:not-allowed}
+.qinp{width:44px;border:1px solid var(--border);border-radius:5px;padding:4px 5px;font-size:13px;font-family:inherit;text-align:center;color:var(--text);background:#090e22}
+.qinp:disabled{opacity:.4}
+.qinp:focus{outline:none;border-color:var(--goud-dim)}
+.osec{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px;max-width:640px}
+.osec h2{font-size:16px;font-weight:700;color:var(--goud);margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+#oempty{color:var(--muted);font-size:14px;font-style:italic}
+.oline{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.oline:last-child{border-bottom:none}
+.on{font-weight:500;color:var(--text)}
+.od{font-size:11px;color:var(--muted)}
+.os{font-size:11px;color:var(--muted);margin-top:2px}
+.ot{font-weight:500;white-space:nowrap;margin-left:12px}
+.sline{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--muted);border-top:1px solid var(--border);margin-top:2px}
+.sline.disc{color:var(--groen);font-weight:500;border-top:none}
+.sline.tot{font-weight:700;font-size:16px;color:var(--goud);border-top:1px solid var(--goud-dim);margin-top:6px;padding-top:11px}
+.sline.mt{font-size:11px;border-top:none}
+.shint{background:var(--goud-bg);border:1px solid var(--goud-dim);color:var(--goud);border-radius:7px;padding:9px 13px;font-size:12px;font-weight:500;margin-top:13px}
+.fgrp{margin-top:18px}
+.fgrp label{display:block;font-size:12px;font-weight:500;margin-bottom:5px;color:var(--muted)}
+#einp{width:100%;border:1px solid var(--border);border-radius:7px;padding:10px 13px;font-size:13px;font-family:inherit;color:var(--text);background:#090e22}
+#einp:focus{outline:none;border-color:var(--goud-dim)}
+#eerr{font-size:12px;color:var(--rood);display:none;margin-bottom:8px}
+#sbtn{width:100%;background:var(--blauw);color:#fff;border:none;border-radius:7px;padding:12px;font-size:14px;font-family:inherit;font-weight:700;cursor:pointer;margin-top:10px;letter-spacing:.02em;transition:background .2s}
+#sbtn:hover{background:var(--blauw-hover)}
+@media(max-width:600px){main{padding:12px};header{padding:12px 16px};.grid{grid-template-columns:1fr!important;gap:10px};.osec{padding:16px};.brand-name{font-size:15px};.logo{width:36px;height:36px;font-size:11px}}
+</style>
+</head>
+<body>
+<div id="loader"><div class="spinner"></div><div style="font-size:13px;color:var(--muted)">Portaal laden...</div></div>
+<div id="app" style="display:none">
+  <div class="soon-banner" id="sbanner" style="display:none"><div class="soon-track" id="strack"></div></div>
+  <header>
+    <div class="brand">
+      <div class="logo" id="logo">RC</div>
+      <div class="brand-name" id="bnaam">RARE<em>CORALS</em></div>
+    </div>
+    <span id="tbadge" class="tier-badge tier-bronze"></span>
+  </header>
+  <div class="subbalk" id="subbalk" style="display:none">
+    <span class="actie-tag">INFO</span><span id="sublbl"></span>
+  </div>
+  <main>
+    <p class="lbl">Producten</p>
+    <div class="filters" id="filters">
+      <button class="fbtn active" onclick="setFilter('alle')">Alle</button>
+      <button class="fbtn" onclick="setFilter('SPS')">SPS</button>
+      <button class="fbtn" onclick="setFilter('LPS')">LPS</button>
+      <button class="fbtn" onclick="setFilter('Softies')">Softies</button>
+    </div>
+    <div class="grid" id="pgrid"></div>
+    <div class="osec">
+      <h2>Uw bestelling</h2>
+      <div id="oempty">Vul aantallen in bij de producten hierboven.</div>
+      <div id="olines" style="display:none"></div>
+      <div id="osum" style="display:none"></div>
+      <div class="fgrp">
+        <label for="einp">Uw e-mailadres</label>
+        <input type="email" id="einp" placeholder="naam@voorbeeld.be">
+        <div id="eerr">Vul een geldig e-mailadres in.</div>
+        <button id="sbtn" onclick="send()">Bestelling verzenden &#8594;</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+const SHEET_ID='1zzLXdcv8-vJDf-pDH-o7GfiiF49OWiFQBf63YNrlrHI';
+const BTW=0.21;
+const kId=new URLSearchParams(window.location.search).get('k')||'publiek';
+let cfg={},klant=null,prods=[],staffel=[];
+
+async function load(naam){
+  const r=await fetch('https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(naam)+'&headers=1');
+  const t=await r.text();
+  const j=JSON.parse(t.slice(t.indexOf('(')+1,t.lastIndexOf(')')));
+  if(!j.table||!j.table.rows)return[];
+  const c=j.table.cols.map(function(x){return(x.label||'').toLowerCase().trim().replace(/ /g,'_')});
+  return j.table.rows.filter(function(r){return r.c&&r.c.some(function(x){return x&&x.v!=null&&x.v!==''})}).map(function(row){
+    var o={};c.forEach(function(k,i){var x=row.c&&row.c[i];o[k]=x?(x.v!=null?String(x.v):(x.f||'')):''});return o;
+  });
+}
+
+async function init(){
+  try{
+    var res=await Promise.all([load('Instellingen'),load('Klanten'),load('Producten'),load('Staffel')]);
+    res[0].forEach(function(r){if(r.sleutel)cfg[r.sleutel.toLowerCase()]=r.waarde});
+    var kRow=res[1].find(function(r){return r.klant_id===kId});
+    klant=kRow||{klant_id:'publiek',naam:'Bezoeker',type:'particulier',tier:'bronze',vaste_korting:'0',staffel:'nee'};
+    klant.vp=parseFloat(klant.vaste_korting)||0;
+    klant.sa=String(klant.staffel).toLowerCase()==='ja';
+    klant.iw=String(klant.type).toLowerCase()==='winkel';
+    klant.em=klant.email||'';
+    prods=res[2].filter(function(r){return r.naam}).map(function(r){
+      return Object.assign({},r,{pe:parseFloat(r.prijs_excl)||0,pg:parseFloat(r.prijs_groothandel_excl)||0,st:r.stock,status:r.status||''});
+    });
+    staffel=res[3].map(function(r){var raw=(r.type||'').trim();return{d:parseFloat(r.drempel)||0,k:parseFloat(r.korting)||0,t:raw.toLowerCase(),raw:raw}}).sort(function(a,b){return a.d-b.d});
+    render();
+    document.getElementById('loader').style.display='none';
+    document.getElementById('app').style.display='block';
+  }catch(e){
+    document.getElementById('loader').innerHTML='<div style="text-align:center;color:#f04747"><div style="font-size:30px;margin-bottom:10px">&#9888;</div><div style="font-weight:500">Kon data niet laden.</div><div style="font-size:12px;color:var(--muted);margin-top:6px">Controleer of de Google Sheet openbaar gedeeld is.</div></div>';
+    console.error(e);
+  }
+}
+
+function fmt(n){return'\u20ac\u00a0'+n.toFixed(2).replace('.',',')}
+function bp(p){return klant.iw?(p.pg||p.pe):p.pe}
+function td(e){return klant.iw?e:e*(1+BTW)}
+function isSoon(p){var s=String(p.st).toLowerCase();var n=parseFloat(p.st);var stat=String(p.status||'').toLowerCase();return s==='soon'||s==='-1'||n===-1||s==='available soon'||stat==='soon'||stat.indexOf('soon')>=0||s.indexOf('soon')>=0}
+function inStock(p){return !isSoon(p)&&parseInt(p.st)>0}
+
+function matchStaffel(t){
+  if(!t.t||t.t==='')return true;
+  var isW=klant.iw;
+  var tw=t.t;
+  if(isW)return tw.indexOf('win')>=0||tw.indexOf('Win')>=0;
+  return tw.indexOf('part')>=0||tw.indexOf('Part')>=0;
+}
+function getSpct(sub){
+  if(!klant.sa)return 0;
+  var compare=klant.iw?sub:td(sub);
+  var r=0;
+  staffel.forEach(function(t){if(matchStaffel(t)&&compare>=t.d)r=t.k});
+  return r;
+}
+function nextS(sub){
+  if(!klant.sa)return null;
+  var compare=klant.iw?sub:td(sub);
+  var relevant=staffel.filter(matchStaffel);
+  for(var i=0;i<relevant.length;i++){if(compare<relevant[i].d)return relevant[i]}return null;
+}
+
+function render(){
+  var nm=cfg.bedrijfsnaam||'Groothandel Portaal';
+  document.title=nm;
+  var parts=nm.split(' ');
+  document.getElementById('bnaam').innerHTML=parts.length>1?parts[0]+'<em>'+parts.slice(1).join(' ')+'</em>':nm;
+  var ini=nm.split(' ').map(function(w){return w[0]||''}).slice(0,2).join('').toUpperCase();
+  document.getElementById('logo').textContent=ini||'RC';
+  var em={'bronze':'\uD83E\uDD49','zilver':'\uD83E\uDD48','gold':'\uD83E\uDD47'};
+  var tb=document.getElementById('tbadge');
+  tb.textContent=(em[klant.tier]||'')+' '+klant.naam+' \u2014 '+klant.tier.charAt(0).toUpperCase()+klant.tier.slice(1);
+  tb.className='tier-badge tier-'+(klant.tier||'bronze');
+  var sub=document.getElementById('subbalk');
+  var sbl=document.getElementById('sublbl');
+  if(cfg.staffel_omschrijving){sub.style.display='flex';sbl.textContent=(cfg.staffel_omschrijving)+' \u00b7 '+(klant.iw?'Prijzen excl. BTW':'Prijzen incl. BTW')}
+  var sp=prods.filter(isSoon);
+  var sb=document.getElementById('sbanner'),st=document.getElementById('strack');
+  if(sp.length>0){
+    sb.style.display='block';
+    var doubled=sp.concat(sp);
+    st.innerHTML=doubled.map(function(p){return'<span class="soon-item"><span class="soon-tag">AVAILABLE SOON</span>'+p.naam+(p.afmeting?'\u00b7'+p.afmeting:'')+'</span><span class="soon-pip"></span>'}).join('');
+  }
+  var g=document.getElementById('pgrid');g.innerHTML='';
+  prods.forEach(function(p){renderCard(p,g)});
+  upd();
+  if(klant.em){
+    var ei=document.getElementById('einp');
+    ei.value=klant.em;
+    ei.readOnly=true;
+    ei.style.opacity='0.6';
+    ei.style.cursor='not-allowed';
+  }
+}
+
+function renderCard(p,g){
+  var is=inStock(p),soon=isSoon(p);
+  var exc=bp(p),disp=td(exc),lbl=klant.iw?'excl. BTW':'incl. BTW';
+  var ph='';
+  if(soon)ph='<div class="ov ov-bg ov-goud"><span class="ov-lbl">AVAILABLE SOON</span></div>';
+  else if(!is)ph='<div class="ov ov-bg ov-rood"><span class="ov-lbl">GEEN STOCK</span></div>';
+  var img=p.foto_url?'<img class="pimg" src="'+p.foto_url+'" alt="'+p.naam+'" loading="lazy">':'<div class="pimg-ph">Geen foto</div>';
+  var prHtml='';
+  if(klant.iw&&p.pe>0&&p.pg>0){
+    var consDisp=p.pe*(1+BTW);
+    if(klant.vp>0){
+      var d=disp*(1-klant.vp/100);
+      prHtml='<div style="font-size:12px;color:var(--muted);margin-bottom:6px">Consumentenprijs: <span style="color:var(--text);font-weight:500">'+fmt(consDisp)+'</span> incl. BTW</div>'
+        +'<div class="prow"><span class="pold">'+fmt(disp)+'</span><span class="pnew">'+fmt(d)+'</span><span class="psave">-'+klant.vp+'%</span></div>'
+        +'<div class="plbl">'+lbl+'</div>';
+    }else{
+      prHtml='<div style="font-size:12px;color:var(--muted);margin-bottom:6px">Consumentenprijs: <span style="color:var(--text);font-weight:500">'+fmt(consDisp)+'</span> incl. BTW</div>'
+        +'<div class="prow"><span class="pmain" style="color:var(--text)">'+fmt(disp)+'</span></div>'
+        +'<div class="plbl">'+lbl+(klant.sa?' \u00b7 staffelkorting mogelijk':'')+'</div>';
+    }
+  } else if(klant.vp>0){
+    var d=disp*(1-klant.vp/100);
+    prHtml='<div class="prow"><span class="pold">'+fmt(disp)+'</span><span class="pnew">'+fmt(d)+'</span><span class="psave">-'+klant.vp+'%</span></div><div class="plbl">'+lbl+' \u00b7 u spaart '+fmt(disp-d)+' per stuk</div>';
+  }else{
+    prHtml='<div class="prow"><span class="pmain">'+fmt(disp)+'</span></div><div class="plbl">'+lbl+(klant.sa?' \u00b7 staffelkorting mogelijk':'')+'</div>';
+  }
+  var wh='';
+  var dis=!is||soon;
+  var c=document.createElement('div');
+  c.className='pcard'+(is?'':' oos');
+  c.innerHTML='<div class="img-wrap">'+img+ph+'</div>'
+    +'<div class="pbody">'
+    +'<div class="pname">'+p.naam+'</div>'
+    +(p.afmeting?'<div class="pdim">'+p.afmeting+'</div>':'')
+    +'<span class="sbadge '+(soon?'goud':is?'groen':'rood')+'"><span class="sdot"></span>'+(soon?'Available soon':is?p.st+' op voorraad':'Geen stock')+'</span>'
+    +prHtml+wh
+    +'<div class="qrow"><label>Aantal</label><div class="qctrl">'
+    +'<button class="qbtn" onclick="cq(\''+p.id+'\',-1)"'+(dis?' disabled':'')+'>\u2212</button>'
+    +'<input class="qinp" type="number" min="0" max="'+p.st+'" value="0" id="q-'+p.id+'"'+(dis?' disabled':'')+'oninput="upd()">'
+    +'<button class="qbtn" onclick="cq(\''+p.id+'\',1)"'+(dis?' disabled':'')+'>+</button>'
+    +'</div></div></div>';
+  g.appendChild(c);
+}
+
+function cq(id,d){var e=document.getElementById('q-'+id);if(!e||e.disabled)return;e.value=Math.max(0,Math.min(parseInt(e.max)||999,(parseInt(e.value)||0)+d));upd()}
+
+function items(){return prods.map(function(p){var e=document.getElementById('q-'+p.id);var q=e?(parseInt(e.value)||0):0;return q>0?{p:p,q:q,e:bp(p)}:null}).filter(Boolean)}
+
+function upd(){
+  var it=items();
+  var le=document.getElementById('olines'),se=document.getElementById('osum'),ee=document.getElementById('oempty');
+  if(!it.length){le.style.display=se.style.display='none';ee.style.display='block';return}
+  le.style.display=se.style.display='block';ee.style.display='none';
+  le.innerHTML=it.map(function(i){var u=td(i.e);return'<div class="oline"><div><div class="on">'+i.p.naam+(i.p.afmeting?' <span class="od">('+i.p.afmeting+')</span>':'')+'</div><div class="os">'+i.q+' \xd7 '+fmt(u)+'</div></div><div class="ot">'+fmt(u*i.q)+'</div></div>'}).join('');
+  var sub=it.reduce(function(s,i){return s+i.q*i.e},0);
+  var sp=getSpct(sub),kp=klant.vp>0?klant.vp:sp,ke=sub*kp/100,tot=sub-ke,btw=tot*BTW,ti=tot+btw;
+  var h='';
+  if(kp>0){h+='<div class="sline"><span>Subtotaal</span><span>'+fmt(td(sub))+'</span></div>';h+='<div class="sline disc"><span>'+(klant.vp>0?'Vaste korting':'Staffelkorting')+' ('+kp+'%)</span><span>\u2212 '+fmt(td(ke))+'</span></div>'}
+  if(klant.iw){h+='<div class="sline tot"><span>Totaal excl. BTW</span><span>'+fmt(tot)+'</span></div>';h+='<div class="sline mt"><span>BTW 21%</span><span>'+fmt(btw)+'</span></div>';h+='<div class="sline"><span style="font-weight:600;color:var(--text)">Totaal incl. BTW</span><span style="font-weight:600;color:var(--text)">'+fmt(ti)+'</span></div>'}
+  else{h+='<div class="sline tot"><span>Totaal incl. BTW</span><span>'+fmt(ti)+'</span></div>';h+='<div class="sline mt"><span>Waarvan BTW 21%</span><span>'+fmt(btw)+'</span></div>'}
+  var nx=nextS(sub);if(nx)h+='<div class="shint">\uD83C\uDFAF Nog '+fmt(td(nx.d-sub))+' tot '+nx.k+'% staffelkorting!</div>';
+  se.innerHTML=h;
+}
+
+function send(){
+  var ev=document.getElementById('einp').value.trim(),er=document.getElementById('eerr');
+  if(!ev||ev.indexOf('@')<0){er.style.display='block';return}er.style.display='none';
+  var it=items();if(!it.length)return;
+  var sub=it.reduce(function(s,i){return s+i.q*i.e},0);
+  var sp=getSpct(sub),kp=klant.vp>0?klant.vp:sp,ke=sub*kp/100,tot=sub-ke,btw=tot*BTW,ti=tot+btw;
+  var b='Beste,%0D%0A%0D%0AIk wil graag bestellen:%0D%0A%0D%0A';
+  it.forEach(function(i){var u=td(i.e);b+='\u2022 '+i.p.naam+(i.p.afmeting?' ('+i.p.afmeting+')':'')+': '+i.q+' st. x EUR '+u.toFixed(2).replace('.',',')+' = EUR '+(u*i.q).toFixed(2).replace('.',',')+' %0D%0A'});
+  if(kp>0)b+='%0D%0AKorting ('+kp+'%%): \u2212 EUR '+td(ke).toFixed(2).replace('.',',')+' %0D%0A';
+  b+='%0D%0ATotaal '+(klant.iw?'excl.':'incl.')+' BTW: EUR '+(klant.iw?tot:ti).toFixed(2).replace('.',',')+' %0D%0A';
+  if(klant.iw)b+='BTW 21%%: EUR '+btw.toFixed(2).replace('.',',')+' %0D%0ATotaal incl. BTW: EUR '+ti.toFixed(2).replace('.',',')+' %0D%0A';
+  b+='%0D%0AE-mail: '+ev+'%0D%0AKlant: '+klant.naam+' ('+kId+')%0D%0A%0D%0AMet vriendelijke groeten';
+  var to=cfg.email||'jouw@emailadres.be';
+  window.location.href='mailto:'+to+'?subject='+encodeURIComponent('Bestelling '+(cfg.bedrijfsnaam||'portaal')+' \u2014 '+klant.naam)+'&body='+b;
+}
+var activeFilter='alle';
+function setFilter(f){
+  activeFilter=f;
+  document.querySelectorAll('.fbtn').forEach(function(b){
+    b.classList.toggle('active', b.textContent===(f==='alle'?'Alle':f));
+  });
+  var g=document.getElementById('pgrid');g.innerHTML='';
+  var filtered=f==='alle'?prods:prods.filter(function(p){return String(p.categorie||'').toLowerCase()===f.toLowerCase()});
+  filtered.forEach(function(p){renderCard(p,g)});
+  upd();
+}
+init();
+</script>
+<div style="text-align:center;padding:20px;font-size:10px;color:#2a3a55">v2.7</div>
+</body>
+</html>
